@@ -120,3 +120,31 @@ window.PARTS = [
   {id:"fan9",category:"Fan",brand:"be quiet!",model:"Light Wings 120mm PWM",priceTRY:null,sizeMM:120,pwm:true,argb:true},
   {id:"fan10",category:"Fan",brand:"Thermaltake",model:"TOUGHFAN 12",priceTRY:null,sizeMM:120,pwm:true,airflowCFM:58.35}
 ];
+window.PARTS = window.PARTS.map(p => ({
+  ...p,
+  name: p.model,
+  emoji: ({
+    CPU: "🧠",
+    GPU: "🎮",
+    Motherboard: "🛠️",
+    RAM: "🧩",
+    Storage: "💾",
+    PSU: "🔌",
+    Case: "🖥️",
+    AirCooler: "🌀",
+    LiquidCooler: "❄️",
+    Fan: "🌪️"
+  })[p.category] || "🧩",
+  rarity: ({
+    CPU: "common",
+    RAM: "common",
+    Storage: "rare",
+    PSU: "rare",
+    Motherboard: "rare",
+    Case: "epic",
+    AirCooler: "epic",
+    Fan: "epic",
+    LiquidCooler: "legendary",
+    GPU: "legendary"
+  })[p.category] || "common"
+}));
