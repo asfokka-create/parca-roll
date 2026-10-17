@@ -1,52 +1,557 @@
 <!doctype html>
 <html lang="tr">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Parça Roll</title>
 <style>
-:root{color-scheme:dark;--bg:#0b1020;--panel:#141b30;--panel2:#1b2540;--line:#2d3b5e;--text:#eef3ff;--muted:#9eacce;--blue:#6ea8ff;--purple:#a78bfa;--green:#58d6a2;--gold:#ffd166}*{box-sizing:border-box}body{margin:0;background:radial-gradient(900px 500px at 50% -150px,#263d70 0,transparent 70%),var(--bg);font:15px system-ui,-apple-system,Segoe UI,sans-serif;color:var(--text)}button,input{font:inherit}button{border:0;border-radius:12px;padding:11px 14px;background:linear-gradient(135deg,#6ea8ff,#8c79ff);color:#071126;font-weight:800;cursor:pointer}button:disabled{opacity:.5;cursor:not-allowed}.wrap{max-width:1050px;margin:auto;padding:18px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}.brand{font-size:25px;font-weight:950;letter-spacing:-.7px}.brand span{color:var(--blue)}.status{font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:99px;padding:7px 10px}.tabs{display:flex;gap:8px;overflow:auto;margin-bottom:16px}.tab{background:var(--panel2);color:var(--text);white-space:nowrap}.tab.active{background:var(--blue);color:#071126}.page{display:none}.page.active{display:block}.grid{display:grid;grid-template-columns:1.15fr .85fr;gap:15px}.panel{background:linear-gradient(180deg,#172039,#11182b);border:1px solid var(--line);border-radius:18px;padding:18px;min-width:0}.panel h2{font-size:18px;margin:0 0 12px}.sub{color:var(--muted);font-size:13px;line-height:1.5}.rollbox{text-align:center;padding:24px 12px}.orb{width:142px;height:142px;margin:8px auto 18px;border-radius:30px;display:grid;place-items:center;background:radial-gradient(circle at 30% 25%,#354e85,#18213b 65%);border:1px solid #4a6395;box-shadow:0 0 45px #668cff26;font-size:45px}.item-name{font-size:22px;font-weight:900;margin:8px}.rarity{display:inline-block;border:1px solid var(--line);border-radius:99px;padding:5px 10px;font-size:12px;color:var(--gold)}.rollbtn{font-size:17px;padding:14px 25px;margin:10px 0}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:15px}.stat{background:#0c1324;border:1px solid var(--line);border-radius:12px;padding:12px}.stat strong{display:block;font-size:21px}.stat small{color:var(--muted)}.list{display:flex;flex-direction:column;gap:8px}.rowitem{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px;background:#0c1324;border:1px solid var(--line);border-radius:12px}.rowitem .left{display:flex;align-items:center;gap:10px;min-width:0}.emoji{font-size:24px}.rowitem small{display:block;color:var(--muted)}.rowitem b{overflow-wrap:anywhere}.empty{color:var(--muted);text-align:center;padding:22px 8px}.field{display:flex;flex-direction:column;gap:6px;margin:10px 0}.field label{font-size:12px;color:var(--muted)}input{width:100%;border:1px solid var(--line);border-radius:11px;background:#0a1121;color:var(--text);padding:12px;outline:none}input:focus{border-color:var(--blue)}.actions{display:flex;gap:8px;flex-wrap:wrap}.secondary{background:#263552;color:var(--text);border:1px solid var(--line)}.notice{padding:11px 12px;border:1px solid var(--line);background:#0c1324;border-radius:12px;color:var(--muted);font-size:13px;line-height:1.45;margin-top:10px}.notice.good{color:var(--green)}.notice.bad{color:#ff9b9b}.hide{display:none!important}.footer{color:#7889ad;font-size:11px;text-align:center;padding:22px 0 8px}.rarity-common{color:#c8d1e6}.rarity-rare{color:#6ea8ff}.rarity-epic{color:#c4a0ff}.rarity-legendary{color:#ffd166}.rarity-mythic{color:#ff8ac6}@media(max-width:720px){.wrap{padding:12px}.grid{grid-template-columns:1fr}.panel{padding:15px}.orb{width:120px;height:120px}.brand{font-size:23px}.stats{gap:6px}.stat{padding:9px}.stat strong{font-size:18px}}
+:root{color-scheme:dark;--bg:#0b1020;--panel:#151e34;--line:#304263;--text:#f0f4ff;--muted:#a5b4d0;--blue:#76aaff;--green:#61e0ae;--gold:#ffd166}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at top,#243960,#0b1020 65%);color:var(--text);font:15px system-ui,sans-serif;min-height:100vh}
+button,input{font:inherit}
+button{border:1px solid #526b9b;border-radius:12px;padding:11px 14px;background:linear-gradient(135deg,#76aaff,#a18aff);color:#091225;font-weight:800;cursor:pointer}
+button:active{transform:scale(.98)}
+button:disabled{opacity:.5}
+.wrap{max-width:1050px;margin:auto;padding:15px}
+header{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+.logo{font-size:25px;font-weight:950}
+.logo span{color:var(--blue)}
+.sub,small{color:var(--muted)}
+.sub{font-size:13px;line-height:1.5}
+.status{font-size:12px;border:1px solid var(--line);padding:8px 10px;border-radius:30px;color:var(--muted)}
+.tabs{display:flex;gap:7px;overflow-x:auto;padding-bottom:10px}
+.tab{white-space:nowrap;background:#1b2945;color:var(--text);flex-shrink:0}
+.tab.active{background:var(--blue);color:#071126}
+.page{display:none}
+.page.active{display:block}
+.grid{display:grid;grid-template-columns:1.1fr .9fr;gap:14px}
+.panel{background:linear-gradient(160deg,#192640,#11182a);border:1px solid var(--line);border-radius:17px;padding:17px;min-width:0;margin-bottom:14px}
+h2{font-size:19px;margin:0 0 10px}
+.rollbox{text-align:center;padding:25px 12px}
+.orb{width:125px;height:125px;border-radius:28px;margin:18px auto;display:grid;place-items:center;font-size:48px;background:radial-gradient(circle at top,#3c5585,#18213a);border:1px solid #536da0}
+.itemname{font-size:21px;font-weight:900;margin:10px 0}
+.rarity{display:inline-block;padding:5px 10px;border:1px solid var(--line);border-radius:20px;font-size:12px}
+.common{color:#c8d1e6}.rare{color:#76aaff}.epic{color:#c6a0ff}.legendary{color:#ffd166}.mythic{color:#ff91d0}
+.rollbtn{font-size:18px;padding:14px 27px;margin:12px 0}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:15px}
+.stat{background:#0c1425;border:1px solid var(--line);border-radius:12px;padding:12px}
+.stat strong{display:block;font-size:21px}
+.stat small{font-size:12px}
+.list{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.rowitem{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px;background:#0c1425;border:1px solid var(--line);border-radius:12px}
+.left{display:flex;align-items:center;gap:10px;min-width:0}
+.left>div{min-width:0;overflow-wrap:anywhere}
+.emoji{font-size:25px}
+.rowitem small{display:block;font-size:12px;margin-top:3px}
+.rowitem b{overflow-wrap:anywhere}
+.empty{text-align:center;color:var(--muted);padding:25px 8px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.secondary{background:#253653;color:var(--text)}
+.notice{margin-top:10px;padding:12px;border:1px solid var(--line);background:#0c1425;border-radius:12px;color:var(--muted);font-size:13px;line-height:1.5;overflow-wrap:anywhere}
+.good{color:var(--green)}.bad{color:#ff9999}
+.field{margin:12px 0}
+label{display:block;color:var(--muted);font-size:13px;margin-bottom:6px}
+input{width:100%;padding:12px;background:#0b1324;border:1px solid var(--line);border-radius:10px;color:white}
+.hide{display:none!important}
+.footer{text-align:center;color:#7f91b3;font-size:12px;padding:18px}
+@media(max-width:700px){.wrap{padding:11px}.grid{grid-template-columns:1fr}.panel{padding:14px}.logo{font-size:23px}.stats{gap:5px}.stat{padding:9px}.stat strong{font-size:18px}}
 </style>
 </head>
-<body><main class="wrap">
-<header class="top"><div><div class="brand">⚙️ PARÇA <span>ROLL</span></div><div class="sub">Parçaları kazan • Koleksiyonunu büyüt</div></div><div class="status" id="connection">● Bağlantı kontrol ediliyor…</div></header>
-<nav class="tabs"><button class="tab active" data-page="roll">🎲 Roll</button><button class="tab" data-page="inventory">🎒 Envanter</button><button class="tab" data-page="events">🏆 Etkinlikler</button><button class="tab" data-page="leaderboard">📊 Sıralama</button><button class="tab" data-page="account">👤 Hesap</button></nav>
-<section class="page active" id="page-roll"><div class="grid"><div class="panel rollbox"><h2>Parça Roll</h2><div class="sub">Roll düğmesine bas ve rastgele bir bilgisayar parçası kazan.</div><div class="orb" id="orb">🎲</div><div class="item-name" id="resultName">Hazır mısın?</div><div id="resultRarity" class="rarity">Parça bekleniyor</div><div><button class="rollbtn" id="rollBtn">🎲 ROLL AT</button></div><div class="sub" id="rollHint">Her roll envanterine bir parça ekler.</div><div class="stats"><div class="stat"><strong id="rollCount">0</strong><small>Roll</small></div><div class="stat"><strong id="itemCount">0</strong><small>Parça</small></div><div class="stat"><strong id="legendCount">0</strong><small>Efsanevi+</small></div></div></div>
-<div class="panel"><h2>✨ Nadirlik oranları</h2><div class="list"><div class="rowitem"><div class="left"><span class="emoji">🧩</span><div><b class="rarity-common">Sıradan</b><small>Standart parçalar</small></div></div><b>55%</b></div><div class="rowitem"><div class="left"><span class="emoji">🔹</span><div><b class="rarity-rare">Nadir</b><small>Daha iyi parçalar</small></div></div><b>27%</b></div><div class="rowitem"><div class="left"><span class="emoji">💜</span><div><b class="rarity-epic">Destansı</b><small>Değerli parçalar</small></div></div><b>13%</b></div><div class="rowitem"><div class="left"><span class="emoji">👑</span><div><b class="rarity-legendary">Efsanevi</b><small>Çok özel parçalar</small></div></div><b>4%</b></div><div class="rowitem"><div class="left"><span class="emoji">🌌</span><div><b class="rarity-mythic">Mitik</b><small>En nadir seviye</small></div></div><b>1%</b></div></div><div class="notice">Bu ilk sürümde envanter cihazında saklanır. Çevrim içi sıralama ve ödül sistemi için veritabanı tarafında güvenli işlemler kurulmalıdır.</div></div></div></section>
-<section class="page" id="page-inventory"><div class="panel"><h2>🎒 Envanterin</h2><div class="sub">Kazandığın parçalar burada görünür.</div><div class="list" id="inventoryList" style="margin-top:12px"></div><div class="actions" style="margin-top:12px"><button class="secondary" id="exportBtn">Envanteri dışa aktar</button><button class="secondary" id="clearBtn">Envanteri sıfırla</button></div></div></section>
-<section class="page" id="page-events"><div class="panel"><h2>🏆 Etkinlikler</h2><div class="sub">Süreli etkinlikleri ve ödülleri burada göreceksin.</div><div class="notice" id="eventNotice">Etkinlikler Supabase'den yüklenmeye çalışılıyor…</div><div class="list" id="eventList" style="margin-top:12px"></div></div></section>
-<section class="page" id="page-leaderboard"><div class="panel"><h2>📊 Liderlik Tablosu</h2><div class="sub">Oyuncu sıralaması sunucu tarafındaki puan kuralları tamamlandığında açılacak.</div><div class="notice" id="leaderNotice">Veritabanı kontrol ediliyor…</div><div class="list" id="leaderList" style="margin-top:12px"></div></div></section>
-<section class="page" id="page-account"><div class="grid"><div class="panel"><h2>👤 Oyuncu hesabı</h2><div class="sub">Hesap açarak giriş yapabilirsin. Aynı e-posta ve şifreyle tekrar giriş yapabilirsin.</div><div class="field"><label for="email">E-posta</label><input id="email" type="email" autocomplete="email" placeholder="ornek@mail.com"></div><div class="field"><label for="password">Şifre (en az 6 karakter)</label><input id="password" type="password" autocomplete="current-password" placeholder="••••••••"></div><div class="actions"><button id="signupBtn">Kayıt ol</button><button class="secondary" id="loginBtn">Giriş yap</button><button class="secondary hide" id="logoutBtn">Çıkış yap</button></div><div class="notice" id="authNotice">Giriş yapmadın.</div></div><div class="panel"><h2>🔐 Bağlantı durumu</h2><div class="notice" id="dbNotice">Supabase bağlantısı başlatılıyor…</div><p class="sub">Bu sayfada yalnızca Publishable anahtar kullanılır. Secret/service_role anahtarını asla buraya yazma.</p></div></div></section>
-<div class="footer">Parça Roll • İlk sürüm • Oyun verileri bu cihazda saklanır</div>
+<body>
+<main class="wrap">
+<header>
+ <div>
+  <div class="logo">⚙️ PARÇA <span>ROLL</span></div>
+  <div class="sub">Parçaları kazan, koleksiyonunu büyüt!</div>
+ </div>
+ <div class="status" id="connection">● Oyun hazırlanıyor...</div>
+</header>
+
+<nav class="tabs">
+ <button class="tab active" data-page="roll">🎲 Roll</button>
+ <button class="tab" data-page="inventory">🎒 Envanter</button>
+ <button class="tab" data-page="events">🏆 Etkinlikler</button>
+ <button class="tab" data-page="leaderboard">📊 Sıralama</button>
+ <button class="tab" data-page="account">👤 Hesap</button>
+</nav>
+
+<section class="page active" id="page-roll">
+ <div class="grid">
+  <div class="panel rollbox">
+   <h2>Parça Roll</h2>
+   <div class="sub">Düğmeye bas ve rastgele bir bilgisayar parçası kazan.</div>
+   <div class="orb" id="orb">🎲</div>
+   <div class="itemname" id="resultName">Hazır mısın?</div>
+   <div class="rarity common" id="resultRarity">Parça bekleniyor</div>
+   <div><button class="rollbtn" id="rollBtn">🎲 ROLL AT</button></div>
+   <div class="sub" id="rollHint">Her roll bir parça kazandırır.</div>
+   <div class="stats">
+    <div class="stat"><strong id="rollCount">0</strong><small>Roll</small></div>
+    <div class="stat"><strong id="itemCount">0</strong><small>Parça</small></div>
+    <div class="stat"><strong id="legendCount">0</strong><small>Efsanevi+</small></div>
+   </div>
+  </div>
+  <div class="panel">
+   <h2>✨ Nadirlik oranları</h2>
+   <div class="list">
+    <div class="rowitem"><span>🧩 Sıradan</span><b>55%</b></div>
+    <div class="rowitem"><span>🔹 Nadir</span><b>27%</b></div>
+    <div class="rowitem"><span>💜 Destansı</span><b>13%</b></div>
+    <div class="rowitem"><span>👑 Efsanevi</span><b>4%</b></div>
+    <div class="rowitem"><span>🌌 Mitik</span><b>1%</b></div>
+   </div>
+   <div class="notice">Oyun ilerlemen bu cihazda saklanır. Hesap sistemi isteğe bağlıdır.</div>
+  </div>
+ </div>
+</section>
+
+<section class="page" id="page-inventory">
+ <div class="panel">
+  <h2>🎒 Envanterin</h2>
+  <div class="sub">Kazandığın parçalar burada görünür.</div>
+  <div class="list" id="inventoryList"></div>
+  <div class="actions">
+   <button class="secondary" id="exportBtn">📥 Dışa aktar</button>
+   <button class="secondary" id="clearBtn">🗑️ Envanteri sıfırla</button>
+  </div>
+ </div>
+</section>
+
+<section class="page" id="page-events">
+ <div class="panel">
+  <h2>🏆 Etkinlikler</h2>
+  <div class="notice">Etkinlik sistemi henüz çevrim içi olarak kurulmadı.</div>
+  <div class="rowitem"><div><b>🎲 Koleksiyonunu büyüt</b><small>Parça kazanarak kendi koleksiyonunu oluştur.</small></div></div>
+  <div class="rowitem"><div><b>🌌 Nadir parça avı</b><small>Mitik parçaların çıkma ihtimali %1.</small></div></div>
+ </div>
+</section>
+
+<section class="page" id="page-leaderboard">
+ <div class="panel">
+  <h2>📊 Liderlik Tablosu</h2>
+  <div class="notice">Gerçek oyuncular arası sıralama için sunucu tarafında güvenli puanlama sistemi kurulmalıdır.</div>
+  <div class="rowitem"><span>🎒 Senin parça sayın</span><b id="leaderOwnCount">0</b></div>
+  <div class="rowitem"><span>🎲 Toplam roll</span><b id="leaderOwnRolls">0</b></div>
+ </div>
+</section>
+
+<section class="page" id="page-account">
+ <div class="grid">
+  <div class="panel">
+   <h2>👤 Oyuncu hesabı</h2>
+   <div class="sub">Hesap oluşturabilir veya giriş yapabilirsin.</div>
+   <div class="field"><label for="email">E-posta</label><input id="email" type="email" autocomplete="email" placeholder="ornek@mail.com"></div>
+   <div class="field"><label for="password">Şifre (en az 6 karakter)</label><input id="password" type="password" autocomplete="current-password" placeholder="Şifren"></div>
+   <div class="actions">
+    <button id="signupBtn">Kayıt ol</button>
+    <button class="secondary" id="loginBtn">Giriş yap</button>
+    <button class="secondary hide" id="logoutBtn">Çıkış yap</button>
+   </div>
+   <div class="notice" id="authNotice">Hesapla giriş yapmak isteğe bağlıdır.</div>
+  </div>
+  <div class="panel">
+   <h2>🔐 Bağlantı</h2>
+   <div class="notice" id="dbNotice">Oyun yerel olarak çalışmaya hazır.</div>
+   <p class="sub">Supabase bağlantısı çalışmasa bile Roll ve envanter kullanılabilir.</p>
+  </div>
+ </div>
+</section>
+
+<div class="footer">Parça Roll • Oyun ilerlemesi bu cihazda saklanır.</div>
 </main>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="parts.js"></script>
+
 <script>
-// Publishable key is intended for browser use. Never put a service_role/secret key here.
+'use strict';
+
+const $ = id => document.getElementById(id);
+
 const SUPABASE_URL = 'https://ahtlrmepwjbzbpshuqjy.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_hnLBy_3vQNEeEtFK4AYUNg_mBLFihAr';
-const $ = id => document.getElementById(id);
-const PARTS = window.PARTS;
-  console.log("Parça Roll JavaScript çalışıyor");
-console.log("Parça sayısı:", window.PARTS?.length);
-const RARITY_NAMES={common:'Sıradan',rare:'Nadir',epic:'Destansı',legendary:'Efsanevi',mythic:'Mitik'};
-const RARITY_CLASS={common:'rarity-common',rare:'rarity-rare',epic:'rarity-epic',legendary:'rarity-legendary',mythic:'rarity-mythic'};
-let inventory=[]; let rollCount=0; let supabase=null; let currentUser=null;
-try{inventory=JSON.parse(localStorage.getItem('parcaroll_inventory')||'[]');rollCount=Number(localStorage.getItem('parcaroll_rolls')||0);if(!Array.isArray(inventory))inventory=[];}catch(e){inventory=[];rollCount=0;}
-function saveLocal(){try{localStorage.setItem('parcaroll_inventory',JSON.stringify(inventory));localStorage.setItem('parcaroll_rolls',String(rollCount));}catch(e){}}
-function rarityPick(){let r=Math.random()*100;return r<55?'common':r<82?'rare':r<95?'epic':r<99?'legendary':'mythic';}
-function doRoll(){const rarity=rarityPick();const choices=PARTS.filter(p=>p.rarity===rarity);const part=choices[Math.floor(Math.random()*choices.length)]||PARTS[0];const found={...part,id:Date.now()+'-'+Math.random().toString(16).slice(2),at:new Date().toISOString()};inventory.unshift(found);rollCount++;saveLocal();$('orb').textContent=part.emoji;$('resultName').textContent=part.name;$('resultRarity').textContent=RARITY_NAMES[rarity];$('resultRarity').className='rarity '+RARITY_CLASS[rarity];$('rollHint').textContent=rarity==='mythic'?'🌌 İNANILMAZ! Mitik parça kazandın!':'Yeni parça envanterine eklendi.';renderStats();renderInventory();}
-function renderStats(){$('rollCount').textContent=rollCount;$('itemCount').textContent=inventory.length;$('legendCount').textContent=inventory.filter(x=>['legendary','mythic'].includes(x.rarity)).length;}
-function renderInventory(){const root=$('inventoryList');root.innerHTML='';if(!inventory.length){root.innerHTML='<div class="empty">Henüz parçan yok. İlk rollunu at! 🎲</div>';return;}inventory.slice(0,150).forEach(p=>{const el=document.createElement('div');el.className='rowitem';el.innerHTML='<div class="left"><span class="emoji"></span><div><b></b><small></small></div></div><span></span>';el.querySelector('.emoji').textContent=p.emoji||'🧩';el.querySelector('b').textContent=p.name;el.querySelector('small').textContent=new Date(p.at||Date.now()).toLocaleString('tr-TR');const tag=el.querySelector('.rowitem span:last-child');tag.textContent=RARITY_NAMES[p.rarity]||'Sıradan';tag.className=RARITY_CLASS[p.rarity]||'rarity-common';root.appendChild(el);});if(inventory.length>150){const note=document.createElement('div');note.className='sub';note.textContent='En yeni 150 parça gösteriliyor.';root.appendChild(note);}}
-function showNotice(id,msg,kind=''){const el=$(id);el.textContent=msg;el.className='notice'+(kind?' '+kind:'');}
-document.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===btn));document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id==='page-'+btn.dataset.page));}));$('rollBtn').addEventListener('click',doRoll);
-$('clearBtn').addEventListener('click',()=>{if(confirm('Tüm yerel envanterin ve roll sayın sıfırlansın mı?')){inventory=[];rollCount=0;saveLocal();renderStats();renderInventory();}});
-$('exportBtn').addEventListener('click',()=>{const blob=new Blob([JSON.stringify({inventory,rollCount},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='parca-roll-envanter.json';a.click();URL.revokeObjectURL(a.href);});
-function updateAuthUI(){const logged=!!currentUser;$('logoutBtn').classList.toggle('hide',!logged);$('signupBtn').classList.toggle('hide',logged);$('loginBtn').classList.toggle('hide',logged);if(logged)showNotice('authNotice','Giriş yapıldı: '+currentUser.email,'good');}
-async function initSupabase(){if(!window.supabase){$('connection').textContent='● Supabase kütüphanesi yüklenemedi';showNotice('dbNotice','İnternet bağlantısını kontrol et. Supabase istemcisi yüklenemedi.','bad');showNotice('eventNotice','Bağlantı kurulamadığı için etkinlikler yüklenemedi.');showNotice('leaderNotice','Bağlantı kurulamadığı için sıralama yüklenemedi.');return;}try{supabase=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);const {data,error}=await supabase.auth.getSession();if(error)throw error;currentUser=data.session?.user||null;updateAuthUI();$('connection').textContent='● Supabase istemcisi hazır';showNotice('dbNotice','Supabase istemcisi başlatıldı. Bu, tablo izinlerinin ve sunucu işlemlerinin tamamlandığını tek başına doğrulamaz.','good');showNotice('eventNotice','Bağlantı hazır. Etkinlikleri göstermek için events tablosunun herkese açık SELECT izni ve uyumlu sütunları olmalı.');showNotice('leaderNotice','Güvenli sıralama henüz bağlanmadı. İstemciden doğrudan puan yazmak güvenli değildir.');supabase.auth.onAuthStateChange((_event,session)=>{currentUser=session?.user||null;updateAuthUI();});}catch(e){$('connection').textContent='● Bağlantı hatası';showNotice('dbNotice','Supabase başlatılamadı: '+(e.message||'Bilinmeyen hata'),'bad');showNotice('eventNotice','Etkinlikler şu anda kullanılamıyor.');showNotice('leaderNotice','Sıralama şu anda kullanılamıyor.');}}
-$('signupBtn').addEventListener('click',async()=>{if(!supabase)return;const email=$('email').value.trim(),password=$('password').value;if(!email||password.length<6){showNotice('authNotice','Geçerli bir e-posta ve en az 6 karakterli şifre gir.','bad');return;}const {data,error}=await supabase.auth.signUp({email,password});if(error)showNotice('authNotice',error.message,'bad');else if(data.session){currentUser=data.user;updateAuthUI();}else showNotice('authNotice','Kayıt isteği gönderildi. E-posta doğrulaması açıksa gelen kutunu kontrol et.','good');});
-$('loginBtn').addEventListener('click',async()=>{if(!supabase)return;const email=$('email').value.trim(),password=$('password').value;if(!email||!password){showNotice('authNotice','E-posta ve şifreni gir.','bad');return;}const {data,error}=await supabase.auth.signInWithPassword({email,password});if(error)showNotice('authNotice',error.message,'bad');else{currentUser=data.user;updateAuthUI();}});
-$('logoutBtn').addEventListener('click',async()=>{if(!supabase)return;const {error}=await supabase.auth.signOut();if(error)showNotice('authNotice',error.message,'bad');else{currentUser=null;updateAuthUI();showNotice('authNotice','Çıkış yapıldı.');}});
-renderStats();renderInventory();initSupabase();
+
+const PARTS = [
+ {name:'AMD Ryzen 5 5600',category:'İşlemci',brand:'AMD',price:4100,emoji:'🧠',rarity:'common',spec:'AM4 • 6 çekirdek / 12 izlek'},
+ {name:'AMD Ryzen 7 5800X3D',category:'İşlemci',brand:'AMD',price:11500,emoji:'🧠',rarity:'legendary',spec:'AM4 • 8 çekirdek / 16 izlek'},
+ {name:'AMD Ryzen 7 7800X3D',category:'İşlemci',brand:'AMD',price:14500,emoji:'🧠',rarity:'epic',spec:'AM5 • 8 çekirdek / 16 izlek'},
+ {name:'AMD Ryzen 9 9950X',category:'İşlemci',brand:'AMD',price:28000,emoji:'🧠',rarity:'legendary',spec:'AM5 • 16 çekirdek / 32 izlek'},
+ {name:'Intel Core i5-12400F',category:'İşlemci',brand:'Intel',price:4300,emoji:'🧠',rarity:'common',spec:'LGA1700 • 6 çekirdek / 12 izlek'},
+ {name:'Intel Core i7-14700K',category:'İşlemci',brand:'Intel',price:16000,emoji:'🧠',rarity:'epic',spec:'LGA1700 • 20 çekirdek / 28 izlek'},
+ {name:'NVIDIA RTX 4060',category:'Ekran kartı',brand:'NVIDIA',price:13000,emoji:'🎮',rarity:'rare',spec:'8 GB GDDR6'},
+ {name:'NVIDIA RTX 4070 SUPER',category:'Ekran kartı',brand:'NVIDIA',price:26000,emoji:'🎮',rarity:'epic',spec:'12 GB GDDR6X'},
+ {name:'NVIDIA RTX 4090',category:'Ekran kartı',brand:'NVIDIA',price:100000,emoji:'👑',rarity:'mythic',spec:'24 GB GDDR6X'},
+ {name:'AMD Radeon RX 7600',category:'Ekran kartı',brand:'AMD',price:12000,emoji:'🎮',rarity:'rare',spec:'8 GB GDDR6'},
+ {name:'AMD Radeon RX 7900 XTX',category:'Ekran kartı',brand:'AMD',price:45000,emoji:'👑',rarity:'legendary',spec:'24 GB GDDR6'},
+ {name:'ASUS TUF B650M-PLUS WIFI',category:'Anakart',brand:'ASUS',price:8500,emoji:'🟩',rarity:'epic',spec:'AM5 • DDR5'},
+ {name:'MSI B550M PRO-VDH WIFI',category:'Anakart',brand:'MSI',price:4500,emoji:'🟩',rarity:'rare',spec:'AM4 • DDR4'},
+ {name:'Gigabyte B650 AORUS ELITE AX',category:'Anakart',brand:'Gigabyte',price:9500,emoji:'🟩',rarity:'epic',spec:'AM5 • DDR5'},
+ {name:'Corsair Vengeance 16 GB DDR4',category:'RAM',brand:'Corsair',price:1500,emoji:'🧩',rarity:'common',spec:'2x8 GB • 3200 MT/s'},
+ {name:'G.Skill Ripjaws 32 GB DDR4',category:'RAM',brand:'G.Skill',price:2800,emoji:'🧩',rarity:'rare',spec:'2x16 GB • 3600 MT/s'},
+ {name:'Kingston Fury 32 GB DDR5',category:'RAM',brand:'Kingston',price:3500,emoji:'🧩',rarity:'rare',spec:'2x16 GB • 6000 MT/s'},
+ {name:'G.Skill Trident Z5 64 GB DDR5',category:'RAM',brand:'G.Skill',price:8500,emoji:'💎',rarity:'legendary',spec:'2x32 GB • 6400 MT/s'},
+ {name:'Samsung 990 PRO 1 TB',category:'SSD',brand:'Samsung',price:4000,emoji:'💾',rarity:'epic',spec:'NVMe • PCIe 4.0'},
+ {name:'WD Blue SN580 1 TB',category:'SSD',brand:'Western Digital',price:2500,emoji:'💾',rarity:'rare',spec:'NVMe • PCIe 4.0'},
+ {name:'Kingston NV2 500 GB',category:'SSD',brand:'Kingston',price:1300,emoji:'💾',rarity:'common',spec:'NVMe • PCIe 4.0'},
+ {name:'Seagate Barracuda 2 TB',category:'Depolama',brand:'Seagate',price:2500,emoji:'💽',rarity:'common',spec:'3.5 inç HDD'},
+ {name:'Corsair RM850x',category:'Güç kaynağı',brand:'Corsair',price:6500,emoji:'🔌',rarity:'epic',spec:'850 W • 80+ Gold'},
+ {name:'MSI MAG A650BN',category:'Güç kaynağı',brand:'MSI',price:2500,emoji:'🔌',rarity:'common',spec:'650 W • 80+ Bronze'},
+ {name:'Seasonic PRIME TX-1000',category:'Güç kaynağı',brand:'Seasonic',price:12000,emoji:'👑',rarity:'legendary',spec:'1000 W • 80+ Titanium'},
+ {name:'NZXT H5 Flow',category:'Kasa',brand:'NZXT',price:4500,emoji:'🖥️',rarity:'rare',spec:'Mid Tower • Hava akışı'},
+ {name:'Lian Li O11 Dynamic EVO',category:'Kasa',brand:'Lian Li',price:8500,emoji:'🖥️',rarity:'epic',spec:'Mid Tower • Çift bölmeli'},
+ {name:'Fractal Design North',category:'Kasa',brand:'Fractal Design',price:7500,emoji:'🖥️',rarity:'epic',spec:'Mid Tower'},
+ {name:'DeepCool AK400',category:'Hava soğutma',brand:'DeepCool',price:1400,emoji:'❄️',rarity:'common',spec:'Tek kule hava soğutucu'},
+ {name:'Noctua NH-D15',category:'Hava soğutma',brand:'Noctua',price:5000,emoji:'❄️',rarity:'legendary',spec:'Çift kule hava soğutucu'},
+ {name:'DeepCool LS720',category:'Sıvı soğutma',brand:'DeepCool',price:5000,emoji:'🌊',rarity:'epic',spec:'360 mm AIO'},
+ {name:'Corsair iCUE H150i',category:'Sıvı soğutma',brand:'Corsair',price:8500,emoji:'🌊',rarity:'legendary',spec:'360 mm AIO'},
+ {name:'Arctic Liquid Freezer III 360',category:'Sıvı soğutma',brand:'Arctic',price:5500,emoji:'🌊',rarity:'epic',spec:'360 mm AIO'},
+ {name:'Arctic P12 PWM',category:'Kasa fanı',brand:'Arctic',price:350,emoji:'🌀',rarity:'common',spec:'120 mm PWM'},
+ {name:'Noctua NF-A12x25',category:'Kasa fanı',brand:'Noctua',price:1200,emoji:'🌀',rarity:'rare',spec:'120 mm premium fan'}
+];
+
+const RARITY_NAMES = {
+ common:'Sıradan',rare:'Nadir',epic:'Destansı',
+ legendary:'Efsanevi',mythic:'Mitik'
+};
+
+let inventory = [];
+let rollCount = 0;
+let supabase = null;
+let currentUser = null;
+
+try {
+ inventory = JSON.parse(localStorage.getItem('parcaroll_inventory') || '[]');
+ if (!Array.isArray(inventory)) inventory = [];
+ rollCount = Number(localStorage.getItem('parcaroll_rolls') || 0);
+ if (!Number.isFinite(rollCount) || rollCount < 0) rollCount = 0;
+} catch (e) {
+ inventory = [];
+ rollCount = 0;
+}
+
+function saveLocal() {
+ try {
+  localStorage.setItem('parcaroll_inventory', JSON.stringify(inventory));
+  localStorage.setItem('parcaroll_rolls', String(rollCount));
+ } catch (e) {
+  alert('Cihazda kayıt yapılamadı. Tarayıcı depolama alanını kontrol et.');
+ }
+}
+
+function pickRarity() {
+ const n = Math.random() * 100;
+ if (n < 55) return 'common';
+ if (n < 82) return 'rare';
+ if (n < 95) return 'epic';
+ if (n < 99) return 'legendary';
+ return 'mythic';
+}
+
+function renderStats() {
+ $('rollCount').textContent = rollCount;
+ $('itemCount').textContent = inventory.length;
+ $('legendCount').textContent = inventory.filter(p =>
+  p.rarity === 'legendary' || p.rarity === 'mythic'
+ ).length;
+ $('leaderOwnCount').textContent = inventory.length;
+ $('leaderOwnRolls').textContent = rollCount;
+}
+
+function doRoll() {
+ try {
+  const rarity = pickRarity();
+  let choices = PARTS.filter(p => p.rarity === rarity);
+  if (!choices.length) choices = PARTS.filter(p => p.rarity === 'common');
+  if (!choices.length) choices = PARTS;
+  const part = choices[Math.floor(Math.random() * choices.length)];
+
+  const found = {
+   ...part,
+   id: Date.now() + '-' + Math.random().toString(16).slice(2),
+   rarity,
+   at: new Date().toISOString()
+  };
+
+  inventory.unshift(found);
+  rollCount++;
+  saveLocal();
+
+  $('orb').textContent = part.emoji || '🧩';
+  $('resultName').textContent = part.name;
+  $('resultRarity').textContent = RARITY_NAMES[rarity];
+  $('resultRarity').className = 'rarity ' + rarity;
+  $('rollHint').textContent = rarity === 'mythic'
+   ? '🌌 İnanılmaz! Mitik parça kazandın!'
+   : 'Yeni parça envanterine eklendi!';
+
+  renderStats();
+  renderInventory();
+ } catch (e) {
+  alert('Roll sırasında hata oluştu: ' + e.message);
+ }
+}
+
+function renderInventory() {
+ const root = $('inventoryList');
+ root.replaceChildren();
+
+ if (!inventory.length) {
+  const empty = document.createElement('div');
+  empty.className = 'empty';
+  empty.textContent = 'Henüz parçan yok. İlk rollunu at! 🎲';
+  root.appendChild(empty);
+  return;
+ }
+
+ inventory.slice(0, 200).forEach(p => {
+  const row = document.createElement('div');
+  row.className = 'rowitem';
+
+  const left = document.createElement('div');
+  left.className = 'left';
+
+  const emoji = document.createElement('span');
+  emoji.className = 'emoji';
+  emoji.textContent = p.emoji || '🧩';
+
+  const info = document.createElement('div');
+  const name = document.createElement('b');
+  name.textContent = p.name || p.model || 'Bilinmeyen parça';
+
+  const detail = document.createElement('small');
+  detail.textContent = [
+   p.category || '',
+   p.brand || '',
+   p.spec || '',
+   Number(p.price || p.priceTRY) > 0
+    ? Number(p.price || p.priceTRY).toLocaleString('tr-TR') + ' TL'
+    : '',
+   p.at ? new Date(p.at).toLocaleString('tr-TR') : ''
+  ].filter(Boolean).join(' • ');
+
+  info.append(name, detail);
+  left.append(emoji, info);
+
+  const tag = document.createElement('span');
+  tag.className = 'rarity ' + (p.rarity || 'common');
+  tag.textContent = RARITY_NAMES[p.rarity] || 'Sıradan';
+
+  row.append(left, tag);
+  root.appendChild(row);
+ });
+
+ if (inventory.length > 200) {
+  const note = document.createElement('div');
+  note.className = 'sub';
+  note.textContent = 'En yeni 200 parça gösteriliyor.';
+  root.appendChild(note);
+ }
+}
+
+function showNotice(id, message, kind) {
+ const el = $(id);
+ el.textContent = message;
+ el.className = 'notice' + (kind ? ' ' + kind : '');
+}
+
+document.querySelectorAll('.tab').forEach(btn => {
+ btn.addEventListener('click', () => {
+  document.querySelectorAll('.tab').forEach(x =>
+   x.classList.toggle('active', x === btn)
+  );
+  document.querySelectorAll('.page').forEach(page =>
+   page.classList.toggle('active', page.id === 'page-' + btn.dataset.page)
+  );
+ });
+});
+
+$('rollBtn').addEventListener('click', doRoll);
+
+$('clearBtn').addEventListener('click', () => {
+ if (!confirm('Envanterin ve roll sayın sıfırlansın mı?')) return;
+ inventory = [];
+ rollCount = 0;
+ saveLocal();
+ renderStats();
+ renderInventory();
+ $('orb').textContent = '🎲';
+ $('resultName').textContent = 'Hazır mısın?';
+ $('resultRarity').textContent = 'Parça bekleniyor';
+ $('resultRarity').className = 'rarity common';
+ $('rollHint').textContent = 'Her roll bir parça kazandırır.';
+});
+
+$('exportBtn').addEventListener('click', () => {
+ try {
+  const blob = new Blob(
+   [JSON.stringify({inventory, rollCount}, null, 2)],
+   {type:'application/json'}
+  );
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'parca-roll-envanter.json';
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+ } catch (e) {
+  alert('Dışa aktarma başarısız oldu.');
+ }
+});
+
+function updateAuthUI() {
+ const logged = !!currentUser;
+ $('logoutBtn').classList.toggle('hide', !logged);
+ $('signupBtn').classList.toggle('hide', logged);
+ $('loginBtn').classList.toggle('hide', logged);
+ if (logged) {
+  showNotice('authNotice', 'Giriş yapıldı: ' + currentUser.email, 'good');
+ }
+}
+
+let supabaseLoading = false;
+
+function loadSupabase() {
+ if (supabase) return Promise.resolve(supabase);
+ if (supabaseLoading) {
+  return new Promise((resolve, reject) => {
+   const start = Date.now();
+   const check = () => {
+    if (supabase) return resolve(supabase);
+    if (!supabaseLoading || Date.now() - start > 12000) {
+     return reject(new Error('Supabase yüklenemedi. İnternetini kontrol et.'));
+    }
+    setTimeout(check, 200);
+   };
+   check();
+  });
+ }
+
+ supabaseLoading = true;
+ return new Promise((resolve, reject) => {
+  const script = document.createElement('script');
+  script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+  script.onload = () => {
+   try {
+    if (!window.supabase) throw new Error('Supabase kütüphanesi bulunamadı.');
+    supabase = window.supabase.createClient(
+     SUPABASE_URL,
+     SUPABASE_PUBLISHABLE_KEY,
+     {auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}}
+    );
+    supabaseLoading = false;
+    $('connection').textContent = '● Oyun çalışıyor';
+    showNotice('dbNotice', 'Supabase istemcisi hazır. Hesap işlemleri kullanılabilir.', 'good');
+    resolve(supabase);
+   } catch (e) {
+    supabaseLoading = false;
+    reject(e);
+   }
+  };
+  script.onerror = () => {
+   supabaseLoading = false;
+   reject(new Error('Supabase dosyası indirilemedi. İnternet bağlantını kontrol et.'));
+  };
+  document.head.appendChild(script);
+  setTimeout(() => {
+   if (supabaseLoading) {
+    supabaseLoading = false;
+    reject(new Error('Bağlantı zaman aşımına uğradı. Oyun yine de çalışır.'));
+   }
+  }, 12000);
+ });
+}
+
+async function initSupabase() {
+ try {
+  await loadSupabase();
+  const result = await Promise.race([
+   supabase.auth.getSession(),
+   new Promise((_, reject) => setTimeout(
+    () => reject(new Error('Oturum kontrolü zaman aşımına uğradı.')),
+    8000
+   ))
+  ]);
+  if (result.error) throw result.error;
+
+  currentUser = result.data.session?.user || null;
+  updateAuthUI();
+
+  supabase.auth.onAuthStateChange((_event, session) => {
+   currentUser = session?.user || null;
+   updateAuthUI();
+  });
+ } catch (e) {
+  showNotice('dbNotice', e.message + ' Roll ve envanter çevrim dışı çalışmaya devam eder.', 'bad');
+ }
+}
+
+$('signupBtn').addEventListener('click', async () => {
+ const email = $('email').value.trim();
+ const password = $('password').value;
+ if (!email || password.length < 6) {
+  showNotice('authNotice', 'Geçerli bir e-posta ve en az 6 karakterli şifre gir.', 'bad');
+  return;
+ }
+
+ $('signupBtn').disabled = true;
+ try {
+  const client = await loadSupabase();
+  const {data, error} = await client.auth.signUp({email, password});
+  if (error) throw error;
+
+  if (data.session) {
+   currentUser = data.user;
+   updateAuthUI();
+  } else {
+   showNotice('authNotice', 'Kayıt isteği gönderildi. E-posta doğrulaması açıksa gelen kutunu kontrol et.', 'good');
+  }
+ } catch (e) {
+  showNotice('authNotice', e.message || 'Kayıt başarısız.', 'bad');
+ } finally {
+  $('signupBtn').disabled = false;
+ }
+});
+
+$('loginBtn').addEventListener('click', async () => {
+ const email = $('email').value.trim();
+ const password = $('password').value;
+ if (!email || !password) {
+  showNotice('authNotice', 'E-posta ve şifreni gir.', 'bad');
+  return;
+ }
+
+ $('loginBtn').disabled = true;
+ try {
+  const client = await loadSupabase();
+  const {data, error} = await client.auth.signInWithPassword({email, password});
+  if (error) throw error;
+  currentUser = data.user;
+  updateAuthUI();
+ } catch (e) {
+  showNotice('authNotice', e.message || 'Giriş başarısız.', 'bad');
+ } finally {
+  $('loginBtn').disabled = false;
+ }
+});
+
+$('logoutBtn').addEventListener('click', async () => {
+ try {
+  if (!supabase) throw new Error('Önce hesabına giriş yapmalısın.');
+  const {error} = await supabase.auth.signOut();
+  if (error) throw error;
+  currentUser = null;
+  $('logoutBtn').classList.add('hide');
+  $('signupBtn').classList.remove('hide');
+  $('loginBtn').classList.remove('hide');
+  showNotice('authNotice', 'Çıkış yapıldı.');
+ } catch (e) {
+  showNotice('authNotice', e.message, 'bad');
+ }
+});
+
+renderStats();
+renderInventory();
+$('connection').textContent = '● Oyun hazır';
+showNotice('dbNotice', 'Oyun hazır. Supabase yalnızca hesap işlemlerinde yüklenir.');
+initSupabase();
 </script>
 </body>
 </html>
+
