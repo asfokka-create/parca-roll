@@ -26,6 +26,8 @@ const SUPABASE_URL = 'https://ahtlrmepwjbzbpshuqjy.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_hnLBy_3vQNEeEtFK4AYUNg_mBLFihAr';
 const $ = id => document.getElementById(id);
 const PARTS = window.PARTS;
+  console.log("Parça Roll JavaScript çalışıyor");
+console.log("Parça sayısı:", window.PARTS?.length);
 const RARITY_NAMES={common:'Sıradan',rare:'Nadir',epic:'Destansı',legendary:'Efsanevi',mythic:'Mitik'};
 const RARITY_CLASS={common:'rarity-common',rare:'rarity-rare',epic:'rarity-epic',legendary:'rarity-legendary',mythic:'rarity-mythic'};
 let inventory=[]; let rollCount=0; let supabase=null; let currentUser=null;
