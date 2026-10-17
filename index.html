@@ -46,6 +46,5 @@ $('loginBtn').addEventListener('click',async()=>{if(!supabase)return;const email
 $('logoutBtn').addEventListener('click',async()=>{if(!supabase)return;const {error}=await supabase.auth.signOut();if(error)showNotice('authNotice',error.message,'bad');else{currentUser=null;updateAuthUI();showNotice('authNotice','Çıkış yapıldı.');}});
 renderStats();renderInventory();initSupabase();
 </script>
-<script src="parts.js"></script>
 </body>
 </html>
