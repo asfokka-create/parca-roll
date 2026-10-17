@@ -19,18 +19,13 @@
 <div class="footer">Parça Roll • İlk sürüm • Oyun verileri bu cihazda saklanır</div>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="parts.js"></script>
 <script>
 // Publishable key is intended for browser use. Never put a service_role/secret key here.
 const SUPABASE_URL = 'https://ahtlrmepwjbzbpshuqjy.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_hnLBy_3vQNEeEtFK4AYUNg_mBLFihAr';
 const $ = id => document.getElementById(id);
-const PARTS = [
- {name:'AMD Ryzen 5 5600',emoji:'🧠',rarity:'common'},{name:'Intel Core i5 işlemci',emoji:'🧠',rarity:'common'},{name:'16 GB DDR4 RAM',emoji:'🧩',rarity:'common'},{name:'500 GB SATA SSD',emoji:'💾',rarity:'common'},{name:'650W güç kaynağı',emoji:'🔌',rarity:'common'},{name:'Hava soğutucu',emoji:'🌀',rarity:'common'},
- {name:'Ryzen 7 7800X3D',emoji:'🧠',rarity:'rare'},{name:'32 GB DDR5 6000 RAM',emoji:'🧩',rarity:'rare'},{name:'1 TB NVMe SSD',emoji:'💾',rarity:'rare'},{name:'750W 80+ Gold PSU',emoji:'🔌',rarity:'rare'},{name:'B850 anakart',emoji:'🛠️',rarity:'rare'},
- {name:'RTX 5070 ekran kartı',emoji:'🎮',rarity:'epic'},{name:'360 mm sıvı soğutma',emoji:'❄️',rarity:'epic'},{name:'2 TB PCIe 5.0 SSD',emoji:'💾',rarity:'epic'},
- {name:'RTX 5090 ekran kartı',emoji:'👑',rarity:'legendary'},{name:'Ryzen 9 X3D işlemci',emoji:'👑',rarity:'legendary'},
- {name:'Özel üretim efsane ekran kartı',emoji:'🌌',rarity:'mythic'}
-];
+const PARTS = window.PARTS;
 const RARITY_NAMES={common:'Sıradan',rare:'Nadir',epic:'Destansı',legendary:'Efsanevi',mythic:'Mitik'};
 const RARITY_CLASS={common:'rarity-common',rare:'rarity-rare',epic:'rarity-epic',legendary:'rarity-legendary',mythic:'rarity-mythic'};
 let inventory=[]; let rollCount=0; let supabase=null; let currentUser=null;
@@ -50,4 +45,7 @@ $('signupBtn').addEventListener('click',async()=>{if(!supabase)return;const emai
 $('loginBtn').addEventListener('click',async()=>{if(!supabase)return;const email=$('email').value.trim(),password=$('password').value;if(!email||!password){showNotice('authNotice','E-posta ve şifreni gir.','bad');return;}const {data,error}=await supabase.auth.signInWithPassword({email,password});if(error)showNotice('authNotice',error.message,'bad');else{currentUser=data.user;updateAuthUI();}});
 $('logoutBtn').addEventListener('click',async()=>{if(!supabase)return;const {error}=await supabase.auth.signOut();if(error)showNotice('authNotice',error.message,'bad');else{currentUser=null;updateAuthUI();showNotice('authNotice','Çıkış yapıldı.');}});
 renderStats();renderInventory();initSupabase();
-</script></body></html>
+</script>
+<script src="parts.js"></script>
+</body>
+</html>
